@@ -1,5 +1,7 @@
 # reactive cars server
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
 it's a server for [reactive caps](https://github.com/KurobaneYan/reactive-cars), by default it runs on port 4000
 
 ## download dependencies
