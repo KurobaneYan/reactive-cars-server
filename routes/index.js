@@ -33,4 +33,10 @@ router.put('/update/:id', (req, res, next) => {
   .catch(error => res.json({error: error}))
 })
 
+router.delete('/delete/:id', (req, res, next) => {
+  db.delete(req.params.id)
+  .then(c => res.json(c))
+  .catch(error => res.json({error: error}))
+})
+
 module.exports = router
