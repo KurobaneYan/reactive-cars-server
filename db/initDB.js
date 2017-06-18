@@ -5,12 +5,12 @@ const Car = require('./carModel')
 const config = require('../config')
 
 mongoose.Promise = global.Promise
-mongoose.connect(config.databaseUrl)
+mongoose.connect(config.dbUrl)
 const connection = mongoose.connection
 
 connection.on('error', console.error.bind(console, 'connection error:'))
 connection.once('open', () => {
-  console.log('Mongoose connected to ' + config.databaseUrl)
+  console.log('Mongoose connected to ' + config.dbUrl)
 })
 
 const fuelTypes = ['Gasoline', 'Disel']

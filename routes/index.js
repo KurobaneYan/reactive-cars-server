@@ -9,4 +9,10 @@ router.get('/', function (req, res, next) {
   .catch(err => res.json(err))
 })
 
+router.get('/catalog', function (req, res, next) {
+  db.getCatalog()
+  .then(c => res.json(c))
+  .catch(err => res.json(err))
+})
+
 module.exports = router
