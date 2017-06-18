@@ -5,6 +5,11 @@ const Car = mongoose.model('Car')
 
 exports.getAll = () => Car.find()
 
+exports.create = car => {
+  let newCar = new Car(car)
+  return newCar.save()
+}
+
 exports.read = id => Car.findOne({ _id: id })
 
 exports.update = (id, car) => {
