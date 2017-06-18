@@ -1,6 +1,6 @@
 # reactive cars server
 
-it's a server form [reactive caps](https://github.com/KurobaneYan/reactive-cars), by default it runs on port 4000
+it's a server for [reactive caps](https://github.com/KurobaneYan/reactive-cars), by default it runs on port 4000
 
 ## download dependencies
 
