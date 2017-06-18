@@ -27,4 +27,10 @@ router.get('/read/:id', function (req, res, next) {
   .catch(error => res.json({error: error}))
 })
 
+router.put('/update/:id', function (req, res, next) {
+  db.update(req.params.id, req.body)
+  .then(c => res.json(c))
+  .catch(error => res.json({error: error}))
+})
+
 module.exports = router
