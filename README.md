@@ -1,6 +1,6 @@
 # reactive cars server
 
-it's a server form [reactive caps](https://github.com/kurobaneyan/ractive-cars)
+it's a server form [reactive caps](https://github.com/KurobaneYan/reactive-cars)
 
 ## download dependencies
 
