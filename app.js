@@ -19,7 +19,10 @@ connection.once('open', () => console.info(`db connected to ${config.dbUrl}`))
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  next()
+})
 
 app.use('/', index)
 
