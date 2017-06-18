@@ -15,4 +15,10 @@ router.get('/catalog', function (req, res, next) {
   .catch(err => res.json(err))
 })
 
+router.get('/read/:id', function (req, res, next) {
+  db.read(req.params.id)
+  .then(c => res.json(c))
+  .catch(err => res.json(err))
+})
+
 module.exports = router
