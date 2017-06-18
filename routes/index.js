@@ -15,6 +15,12 @@ router.get('/catalog', (req, res, next) => {
   .catch(error => res.json({error: error}))
 })
 
+router.get('/show/:id', (req, res, next) => {
+  db.show(req.params.id)
+  .then(c => res.json(c))
+  .catch(error => res.json({error: error}))
+})
+
 router.post('/create', (req, res, next) => {
   db.create(req.body)
   .then(c => res.json(c))

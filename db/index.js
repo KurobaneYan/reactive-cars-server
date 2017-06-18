@@ -6,17 +6,30 @@ const Car = mongoose.model('Car')
 exports.getAll = () => Car.find()
 
 exports.create = car => {
-  let newCar = new Car(car)
+  const newCar = new Car(car)
   return newCar.save()
 }
 
-exports.read = id => Car.findOne({ _id: id })
+exports.read = id => Car.findById(id)
 
 exports.update = (id, car) => {
   return Car.findOneAndUpdate({ _id: id }, car, { new: true })
 }
 
-exports.delete = (id) => Car.remove({ _id: id })
+exports.delete = id => Car.remove({ _id: id })
+
+exports.show = id => {
+  return Car.findById(id)
+  .then(car => {
+    car.views += 1
+    return Car.findOneAndUpdate({ _id: id }, car, { new: true })
+  })
+}
+
+const getModels = (manufacturer) => {
+  return Car.find({ manufacturer: manufacturer }).distinct('model')
+  .then(models => ({ manufacturer: manufacturer, models: models }))
+}
 
 exports.getCatalog = () => {
   return Car.find().distinct('manufacturer')
@@ -30,9 +43,4 @@ exports.getCatalog = () => {
       return acc
     }, {})
   })
-}
-
-const getModels = (manufacturer) => {
-  return Car.find({ manufacturer: manufacturer }).distinct('model')
-  .then(models => ({ manufacturer: manufacturer, models: models }))
 }
