@@ -21,7 +21,7 @@ let carsData = [
     'Mitsubishi',
     [
       [ 'Lancer', 'https://www.mitsubishi-motors.ca/media/vehicle/nav/15LanEvoFE_Titanium-Grey_09_medium.png' ],
-      ['Outlander', 'http://o.aolcdn.com/dims-global/dims3/GLOB/legacy_thumbnail/750x422/quality/95/http://www.blogcdn.com/slideshows/images/slides/366/249/0/S3662490/slug/l/001-2015-mitsubishi-outlander-sport-quick-spin-1.jpg'],
+      ['Outlander', 'http://www.blogcdn.com/slideshows/images/slides/366/249/0/S3662490/slug/l/001-2015-mitsubishi-outlander-sport-quick-spin-1.jpg'],
       ['Pajero', 'https://www.mitsubishi-motors.com.au/uploads/vehicles/pajero/2017/pajero-gls.png']
     ]
   ],
@@ -45,6 +45,7 @@ let carsData = [
 
 function addCars () {
   let cars = []
+  const photoUrl = 'http://image.superstreetonline.com/f/173192933+w660+h440+q80+re0+cr1/kiyonori-imai-ae86'
   while (cars.length < 100) {
     for (let i in carsData) {
       let make = carsData[i][0]
@@ -61,7 +62,7 @@ function addCars () {
           fuelType: fuelTypes[fuelIndex],
           engineDisplacement: getRandomInt(16, 50) * 100,
           transmissionType: transmissionTypes[transmissionIndex],
-          photos: [photo],
+          photos: [photo, photoUrl],
           price: getRandomInt(3, 100) * 10000,
           views: getRandomInt(0, 1000)
         })

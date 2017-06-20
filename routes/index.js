@@ -6,7 +6,7 @@ const db = require('../db/index')
 const show = (promise, res) => {
   promise
   .then(data => res.json(data))
-  .catch(error => res.json({ error: error }))
+  .catch(error => res.status(500).json({ error: error }))
 }
 
 router.get('/', (req, res, next) => {

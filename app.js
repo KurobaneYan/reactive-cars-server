@@ -3,6 +3,7 @@ const path = require('path')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const index = require('./routes/index')
 const config = require('./config')
@@ -16,13 +17,10 @@ let connection = mongoose.connection
 connection.on('error', console.error.bind(console, 'connection error:'))
 connection.once('open', () => console.info(`db connected to ${config.dbUrl}`))
 
+app.use(cors())
 app.use(logger('dev'))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  next()
-})
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/', index)
 
