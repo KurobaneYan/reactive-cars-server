@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const _ = require('lodash')
 
 const Car = require('./carModel')
 
@@ -16,75 +17,90 @@ connection.once('open', () => {
 const fuelTypes = ['Gasoline', 'Disel']
 const transmissionTypes = ['Manual', 'Automatic']
 
-let carsData = [
-  [
-    'Mitsubishi',
-    [
-      [ 'Lancer', 'https://www.mitsubishi-motors.ca/media/vehicle/nav/15LanEvoFE_Titanium-Grey_09_medium.png' ],
-      ['Outlander', 'http://www.blogcdn.com/slideshows/images/slides/366/249/0/S3662490/slug/l/001-2015-mitsubishi-outlander-sport-quick-spin-1.jpg'],
-      ['Pajero', 'https://www.mitsubishi-motors.com.au/uploads/vehicles/pajero/2017/pajero-gls.png']
-    ]
+let carsData = {
+  'Mitsubishi': [
+    {
+      model: 'Lancer',
+      photos: ['https://www.mitsubishi-motors.ca/media/vehicle/nav/15LanEvoFE_Titanium-Grey_09_medium.png']
+    },
+    {
+      model: 'Outlander',
+      photos: ['http://www.blogcdn.com/slideshows/images/slides/366/249/0/S3662490/slug/l/001-2015-mitsubishi-outlander-sport-quick-spin-1.jpg']
+    },
+    {
+      model: 'Pajero',
+      photos: ['https://www.mitsubishi-motors.com.au/uploads/vehicles/pajero/2017/pajero-gls.png']
+    }
   ],
-  [
-    'Volvo',
-    [
-      ['S90', 'https://i.ytimg.com/vi/BYCPcQAsy_g/maxresdefault.jpg'],
-      ['V90', 'https://2.bp.blogspot.com/-yeGjov-PR6Y/V9q_Nf98B2I/AAAAAAABeIY/tJ8rU8Dlba88VZXgUNECm-zE5s1vrfb2wCLcB/s1600/Volvo-V90-CC.jpg'],
-      ['XC90', 'http://st.motortrend.com/uploads/sites/10/2016/02/2017-volvo-xc90-front-three-quarters.jpg']
-    ]
+  'Volvo': [
+    {
+      model: 'S90',
+      photos: ['https://i.ytimg.com/vi/BYCPcQAsy_g/maxresdefault.jpg']
+    },
+    {
+      model: 'V90',
+      photos: ['https://2.bp.blogspot.com/-yeGjov-PR6Y/V9q_Nf98B2I/AAAAAAABeIY/tJ8rU8Dlba88VZXgUNECm-zE5s1vrfb2wCLcB/s1600/Volvo-V90-CC.jpg']
+    },
+    {
+      model: 'XC90',
+      photos: ['http://st.motortrend.com/uploads/sites/10/2016/02/2017-volvo-xc90-front-three-quarters.jpg']
+    }
   ],
-  [
-    'BMW',
-    [
-      ['I8', 'http://buyersguide.caranddriver.com/media/assets/submodel/7821.jpg'],
-      ['I3', 'http://www.bmw.co.uk/dam/brandBM/common/newvehicles/i-series/i3/2015/at-a-glance/bmwi-i3-more-than-a-car-project-i-03.jpg.resource.1452011239907.jpg'],
-      ['M6', 'http://cdn.bmwblog.com/wp-content/uploads/2017/02/Bill-Auberlen-BMW-M4-GTS-01.jpg']
-    ]
+  'BMW': [
+    {
+      model: 'I8',
+      photos: ['http://buyersguide.caranddriver.com/media/assets/submodel/7821.jpg']
+    },
+    {
+      model: 'I3',
+      photos: ['http://www.bmw.co.uk/dam/brandBM/common/newvehicles/i-series/i3/2015/at-a-glance/bmwi-i3-more-than-a-car-project-i-03.jpg.resource.1452011239907.jpg']
+    },
+    {
+      model: 'M6',
+      photos: ['http://cdn.bmwblog.com/wp-content/uploads/2017/02/Bill-Auberlen-BMW-M4-GTS-01.jpg']
+    }
+  ],
+  'Toyota': [
+    {
+      model: 'AE86',
+      photos: ['https://en.wikipedia.org/wiki/Toyota_AE86#/media/File:New_stock_ae86_coupe.jpg']
+    }
   ]
-]
+}
 
 function addCars () {
-  let cars = []
-  const photoUrl = 'http://image.superstreetonline.com/f/173192933+w660+h440+q80+re0+cr1/kiyonori-imai-ae86'
-  while (cars.length < 100) {
-    for (let i in carsData) {
-      let make = carsData[i][0]
-      for (let j in carsData[i][1]) {
-        let model = carsData[i][1][j][0]
-        let photo = carsData[i][1][j][1]
-        let fuelIndex = Math.round(Math.random())
-        let transmissionIndex = Math.round(Math.random())
-        let tmpCar = new Car({
-          manufacturer: make,
-          model: model,
-          year: getRandomInt(1999, 2017),
-          kilometrage: getRandomInt(10, 500),
-          fuelType: fuelTypes[fuelIndex],
-          engineDisplacement: getRandomInt(16, 50) * 100,
-          transmissionType: transmissionTypes[transmissionIndex],
-          photos: [photo, photoUrl],
-          price: getRandomInt(3, 100) * 10000,
-          views: getRandomInt(0, 1000)
-        })
-        cars.push(tmpCar.save())
-      }
-    }
-  }
-  return Promise.all(cars)
+  let promises = []
+  const manufacturers = Object.keys(carsData)
+  manufacturers.forEach((make) => {
+    const models = carsData[make]
+    models.forEach((model) => {
+      const car = new Car({
+        manufacturer: make,
+        model: model.model,
+        fuelType: _.sample(fuelTypes),
+        transmissionType: _.sample(transmissionTypes),
+        photos: model.photos,
+        year: _.random(1990, 2017),
+        price: _.random(2000, 100000),
+        engineDisplacement: _.random(15, 60) * 100,
+        views: _.random(0, 1000),
+        kilometrage: _.random(100, 300)
+      })
+      promises.push(car.save())
+    })
+  })
+  return Promise.all(promises)
 }
 
-function getRandomInt (min, max) {
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  return Math.floor(Math.random() * (max - min)) + min
-}
+const promises = _.times(1000, () => addCars())
 
-addCars()
-  .then(() => {
-    console.log('Done')
-    process.exit()
-  })
-  .catch((error) => {
-    console.log(error)
-    process.exit(1)
-  })
+Promise.all(promises)
+.then(() => {
+  console.log('Done')
+  process.exit()
+})
+.catch((error) => {
+  console.log(error)
+  process.exit(1)
+})
+

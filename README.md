@@ -8,6 +8,11 @@ it's a server for [reactive cars](https://github.com/KurobaneYan/reactive-cars),
 
 `$ npm install` or `$ yarn`
 
+## Fill database
+
+`$ node db/initDB.js`
+Execution of this command will generate 10000 car records, and save them to the database
+
 ## Run it
 
 `$ npm start` or `$ yarn start`
